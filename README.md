@@ -7,4 +7,4 @@ Utility script that displays the contents of nested brackets on seperate lines. 
 * possibly add ahkscript to bind the script to a hotkey
 
 
-http://i.imgur.com/kWkJ1Yt.png
+![snapshot1](http://i.imgur.com/kWkJ1Yt.png)
