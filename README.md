@@ -5,3 +5,6 @@ Utility script that displays the contents of nested brackets on seperate lines. 
 
 * add examples
 * possibly add ahkscript to bind the script to a hotkey
+
+
+http://i.imgur.com/kWkJ1Yt.png
