@@ -9,23 +9,23 @@ Utility script that displays the contents of nested brackets on seperate lines. 
 ## Example
 
 
-### Input
+#### Input
 
     )a(a)(b[c]],{sum(range(max(array([1,2,3],[4,5,5]))))})
 
-### Output
+#### Output
 
 ![snapshot1](http://i.imgur.com/kWkJ1Yt.png)
 
 ## Example 2: Finding a missing closing bracket
 
-### Input
+#### Input
 
 The following line of code is missing a right paren. 
 
     a = [foo(dict(bar=3,car='zar')]
 
-### Output
+#### Output
 
 ![Example missing closing bracket](http://i.imgur.com/LpaCWNF.png)
 
