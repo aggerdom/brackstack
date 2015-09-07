@@ -29,9 +29,4 @@ The following line of code is missing a right paren.
 
 ![Example missing closing bracket](http://i.imgur.com/LpaCWNF.png)
 
-## Example 3: 
 
-| Input | Output |
-|:-----:|:-------|
-| ``` )a(a)(b[c]],{sum(range(max(array([1,2,3],[4,5,5]))))}) ```| ![snapshot1](http://i.imgur.com/kWkJ1Yt.png) |
-| ```a = [foo(dict(bar=3,car='zar')] ``` | ![Example missing closing bracket](http://i.imgur.com/LpaCWNF.png)  |
