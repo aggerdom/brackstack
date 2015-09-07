@@ -24,4 +24,4 @@ Utility script that displays the contents of nested brackets on seperate lines. 
 
 | Input | Output |
 |:-----:|:-------|
-| a = [foo(dict(bar=3,car='zar')] | ![Example missing closing bracket](http://i.imgur.com/LpaCWNF.png) |
+|```a = [foo(dict(bar=3,car='zar')] ````| ![Example missing closing bracket](http://i.imgur.com/LpaCWNF.png) |
