@@ -14,7 +14,11 @@ Utility script that displays the contents of nested brackets on seperate lines. 
 
 ![snapshot1](http://i.imgur.com/kWkJ1Yt.png)
 
-## Finding a missing closing bracket
+## Example 2: Finding a missing closing bracket
 
     a = [foo(dict(bar=3,car='zar')]
+
+![Example missing closing bracket](http://i.imgur.com/LpaCWNF.png)
+
+## Example 3: 
 
