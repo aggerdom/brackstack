@@ -22,3 +22,6 @@ Utility script that displays the contents of nested brackets on seperate lines. 
 
 ## Example 3: 
 
+| Input | Output |
+|:-----:|:-------|
+|![Example missing closing bracket](http://i.imgur.com/LpaCWNF.png)||
