@@ -6,5 +6,10 @@ Utility script that displays the contents of nested brackets on seperate lines. 
 * add examples
 * possibly add ahkscript to bind the script to a hotkey
 
+## Example
+
+
+
+    ")a(a)(b[c]],{sum(range(max(array([1,2,3],[4,5,5]))))})"
 
 ![snapshot1](http://i.imgur.com/kWkJ1Yt.png)
