@@ -9,10 +9,13 @@ Utility script that displays the contents of nested brackets on seperate lines. 
 ## Example
 
 
+### Input
 
     )a(a)(b[c]],{sum(range(max(array([1,2,3],[4,5,5]))))})
 
+### Output
 
+![snapshot1](http://i.imgur.com/kWkJ1Yt.png)
 
 ## Example 2: Finding a missing closing bracket
 
