@@ -1,4 +1,6 @@
 from brackstack4 import *
+from gui_interface import tk_display_text
+
 def test_nesting_depths(userstring):
     parser = Parser(userstring)
     for token_type_name, left,right in BRACKET_PAIRS:
@@ -31,6 +33,9 @@ def test_constructor_recognizes_default_pairs_tests():
     assert test_nesting_depths("('hello)')") == [0,1,1,1,1,1,1,1,1,0]
     assert test_nesting_depths("(((foo)]))") == [0,1,2,3,3,3,2,2,1,0]
     assert test_nesting_depths("'''foo'") == [0,0,0,0,0,0,0]
+
+def test_gui():
+    tk_display_text()
 
 def test():
     # simple

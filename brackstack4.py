@@ -3,6 +3,8 @@ __author__ = 'Alex Gerdom'
 import re
 from collections import namedtuple
 import itertools
+from gui_interface import App
+
 
 BRACKET_PAIRS = (
     ("paren", "(", ")"),
@@ -16,7 +18,6 @@ REQ_ESCAPE_TO_INC_NESTING_DEPTH = (
     ("single quote", "'", "'"),
     ("double quote", '"', '"'),
 )
-
 
 class BracketTokenType(object):
 
@@ -162,6 +163,37 @@ class Parser(object):
         # print('returning',self.depths)
         return self.depths
 
+    def nestprint(self, nest_downwards=False):
+        """
+        :param s: String to be (un)nested
+        :param depths: Level to each character will be printed at. Presumably calculated by using get_nesting_depth(s).
+        :param nest_downwards: If true, higher levels of nesting will print below the baseline (level 0)."""
+        self.get_nesting_depths()
+        depths = self.depths
+        levels = [[] for _ in range(max(depths)+1)]
+        for lvl,c in zip(depths,self.userstring):
+            for i in range(len(levels)):
+                if lvl == i:
+                    levels[i].append(c)
+                else:
+                    levels[i].append(' ')
+        levels = [''.join(lvl) for lvl in levels]
+        if nest_downwards:
+            return '\n'.join([lvl for lvl in levels])
+        else:
+            return '\n'.join([lvl for lvl in levels[::-1]])
 
+def get_nested_string(userstring=None,nest_downwards=False, get_string_from_clipboard = True, pairs_that_affect_depth = BRACKET_PAIRS, pairs_that_freeze_depth = REQ_ESCAPE_TO_INC_NESTING_DEPTH):
+    """"""
+    parser = Parser(userstring, pairs_that_affect_depth=pairs_that_affect_depth, pairs_that_freeze_depth=pairs_that_freeze_depth)
+    nested_string = parser.nestprint(nest_downwards=nest_downwards)
+    return nested_string
+
+def display_in_gui(string):
+    tk_display_text(nested_string)
+
+
+if __name__ == '__main__':
+    main()
 
 
