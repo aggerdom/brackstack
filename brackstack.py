@@ -16,6 +16,7 @@ REQ_ESCAPE_TO_INC_NESTING_DEPTH = (
     ("double quote", '"', '"'),
 )
 
+
 class BracketTokenType(object):
     """
     Class to represent a type of bracket or sequence pairs and provide regex methods to check if the start of a
@@ -35,13 +36,13 @@ class BracketTokenType(object):
         template = "Bracket(left_bracket='{}', right_bracket='{}')"
         return template.format(self.left_bracket, self.right_bracket)
 
-    def left_match(self,s):
+    def left_match(self, s):
         """Check whether the left bracket of the pair matches the start of some string s"""
-        return re.match(self.left_bracket_re,s)
+        return re.match(self.left_bracket_re, s)
 
-    def right_match(self,s):
+    def right_match(self, s):
         """Check whether the right bracket of the pair matches the start of some string s"""
-        return re.match(self.right_bracket_re,s)
+        return re.match(self.right_bracket_re, s)
 
 
 class Parser(object):
@@ -61,27 +62,27 @@ class Parser(object):
      A(    ) 
     """
 
-    def __init__(self,userstring,pairs_that_affect_depth=None,
-        pairs_that_freeze_depth=None,ignore_pairs_needing_escape=False):
+    def __init__(self, userstring, pairs_that_affect_depth=None,
+                 pairs_that_freeze_depth=None, ignore_pairs_needing_escape=False):
         self.userstring = userstring
-        self.depths = [] # how deeply nested each character in the string is
+        self.depths = []  # how deeply nested each character in the string is
         # (configuration) lists of BracketTokenTypes that affect parsing of the string
         self.pairs_that_affect_depth = []
         self.pairs_that_freeze_depth = []
         self.ignore_pairs_needing_escape = ignore_pairs_needing_escape
         # (for use in getting nesting depths)
-        self._string = userstring # a copy of the user's string that is consumed during parsing
-        self._cur_depth = 0 # Tracks the current depth of nesting
-        self._bracket_stack = [] # token types of left brackets yet to be matched with right brackets
-        self._needed_to_unfreeze = None # bracket type of last freezing token
+        self._string = userstring  # a copy of the user's string that is consumed during parsing
+        self._cur_depth = 0  # Tracks the current depth of nesting
+        self._bracket_stack = []  # token types of left brackets yet to be matched with right brackets
+        self._needed_to_unfreeze = None  # bracket type of last freezing token
         # if pairs of brackets/quotes/ect are supplied when the parser is instantiated,
         # add the pairs recognized by the parser
         if pairs_that_affect_depth is not None:
             for token_type_name, left, right in pairs_that_affect_depth:
-                self.add_pair_that_affects_depth(token_type_name,left,right)
+                self.add_pair_that_affects_depth(token_type_name, left, right)
         if pairs_that_freeze_depth is not None:
-            for token_type_name, left,right in pairs_that_freeze_depth:
-                self.add_pair_that_freezes_depth(token_type_name,left,right)
+            for token_type_name, left, right in pairs_that_freeze_depth:
+                self.add_pair_that_freezes_depth(token_type_name, left, right)
 
     # ====================================================================================================
     # =======  Helper functions that construct and add token types that control parsing behavior
@@ -110,8 +111,8 @@ class Parser(object):
         """
         self.get_nesting_depths()
         depths = self.depths
-        levels = [[] for _ in range(max(depths)+1)]
-        for lvl,c in zip(depths,self.userstring):
+        levels = [[] for _ in range(max(depths) + 1)]
+        for lvl, c in zip(depths, self.userstring):
             for i in range(len(levels)):
                 if lvl == i:
                     levels[i].append(c)
@@ -162,11 +163,11 @@ class Parser(object):
     # =======  Helper functions for internal processing
     # ==================================================
 
-    def _advance_string_nchars(self,nchars):
+    def _advance_string_nchars(self, nchars):
         """Helper function to advance the parser n-steps"""
         self._string = self._string[nchars:]
 
-    def _add_depth_n_m_times(self,n,m):
+    def _add_depth_n_m_times(self, n, m):
         """Helper function to add a depth n, m-times to the character depths"""
         self.depths.extend([n for _ in range(m)])
 
@@ -184,10 +185,10 @@ class Parser(object):
         if self._needed_to_unfreeze is not None:
             # Parse until unfrozed
             while (self._needed_to_unfreeze.right_match(self._string) is None):
-                if self._string=='':
+                if self._string == '':
                     return None
                 else:
-                    self._add_depth_n_m_times(self._cur_depth,1)
+                    self._add_depth_n_m_times(self._cur_depth, 1)
                     self._advance_string_nchars(1)
             # for the length of the unfreezing token
             self._add_depth_n_m_times(self._cur_depth, self._needed_to_unfreeze.right_len)
@@ -195,14 +196,14 @@ class Parser(object):
             self._needed_to_unfreeze = None
             match_found = True
         return match_found
-    
+
     def _check_for_freezing_delim(self):
         match_found = False
         # Check all of the left freezing bracket/sequences to see if they match
         for freezing_token in self.pairs_that_freeze_depth:
             if freezing_token.left_match(self._string):
                 self._needed_to_unfreeze = freezing_token
-                self._add_depth_n_m_times(self._cur_depth,freezing_token.left_len)
+                self._add_depth_n_m_times(self._cur_depth, freezing_token.left_len)
                 self._advance_string_nchars(freezing_token.left_len)
                 match_found = True
                 break
@@ -213,7 +214,7 @@ class Parser(object):
         # Check all of the left brackets to see if they match
         for token_type in self.pairs_that_affect_depth:
             if token_type.left_match(self._string):
-                self._add_depth_n_m_times(self._cur_depth,token_type.left_len)
+                self._add_depth_n_m_times(self._cur_depth, token_type.left_len)
                 self._cur_depth += 1
                 self._advance_string_nchars(token_type.left_len)
                 self._bracket_stack.append(token_type)
@@ -225,14 +226,15 @@ class Parser(object):
         if len(self._bracket_stack) > 0:
             if self._bracket_stack[-1].right_match(self._string):
                 self._cur_depth -= 1
-                self._add_depth_n_m_times(self._cur_depth,self._bracket_stack[-1].right_len)
+                self._add_depth_n_m_times(self._cur_depth, self._bracket_stack[-1].right_len)
                 self._advance_string_nchars(self._bracket_stack[-1].right_len)
                 self._bracket_stack.pop()
                 match_found = True
         return match_found
 
 
-def stackbrack(string,nest_downwards=False, pairs_that_affect_depth = BRACKET_PAIRS, pairs_that_freeze_depth = REQ_ESCAPE_TO_INC_NESTING_DEPTH):
+def stackbrack(string, nest_downwards=False, pairs_that_affect_depth=BRACKET_PAIRS,
+               pairs_that_freeze_depth=REQ_ESCAPE_TO_INC_NESTING_DEPTH):
     """
     > string_to_parse = "A(b(c))"
     > print(stackbrack(string_to_parse))
@@ -245,23 +247,26 @@ def stackbrack(string,nest_downwards=False, pairs_that_affect_depth = BRACKET_PA
     :param pairs_that_freeze_depth:
     :return: A multiline string with one line per level of nesting
     """
-    parser = Parser(string, pairs_that_affect_depth=pairs_that_affect_depth, pairs_that_freeze_depth=pairs_that_freeze_depth)
+    parser = Parser(string, pairs_that_affect_depth=pairs_that_affect_depth,
+                    pairs_that_freeze_depth=pairs_that_freeze_depth)
     nested_string = parser.get_multiline_nested_string(nest_downwards=nest_downwards)
     return nested_string
 
 
-
 def display_in_gui(string):
+    from gui_interface import tk_display_text
     tk_display_text(string)
 
+
 def demo():
-    print("_"*10,"Brackstack Demo", "_"*10)
+    print("_" * 10, "Brackstack Demo", "_" * 10)
     while True:
         userstring = input("Enter a string:")
         if userstring == "":
             continue
         else:
             print(stackbrack(userstring))
+
 
 if __name__ == '__main__':
     demo()
