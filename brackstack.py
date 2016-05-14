@@ -125,7 +125,8 @@ class Parser(object):
             return '\n'.join([lvl for lvl in levels[::-1]])
 
     # ====================================================================================================
-    # =======  Helper functions that construct and add token types that control parsing behavior
+    # Processing Functions: get_nesting_depths is used to get how deeply nested the string supplied
+    # by the user in the initial parsing step is
     # ====================================================================================================
 
     def get_nesting_depths(self):
