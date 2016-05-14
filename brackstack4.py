@@ -190,10 +190,17 @@ def get_nested_string(userstring=None,nest_downwards=False, get_string_from_clip
     return nested_string
 
 def display_in_gui(string):
-    tk_display_text(nested_string)
+    tk_display_text(string)
 
+
+def demo():
+    print("_"*10,"Brackstack Demo", "_"*10)
+    while True:
+        userstring = input("Enter a string:")
+        if userstring == "":
+            continue
+        else:
+            print(get_nested_string(userstring))
 
 if __name__ == '__main__':
-    main()
-
-
+    demo()
