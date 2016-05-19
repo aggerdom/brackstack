@@ -21,9 +21,19 @@ class BracketTokenType(object):
     """
     Class to represent a type of bracket or sequence pairs and provide regex methods to check if the start of a
     string matches a token of that type.
-    """
 
+    ..
+
+    """
     def __init__(self, bracket_type, left_bracket, right_bracket):
+        """
+        :param bracket_type: Name of the bracket/token pair
+        :type bracket_type: str
+        :param left_bracket: Left Bracket Token
+        :type left_bracket: str
+        :param right_bracket: Right Bracket Token
+        :type right_bracket: str
+        """
         self.bracket_type = bracket_type
         self.left_bracket = left_bracket
         self.right_bracket = right_bracket
